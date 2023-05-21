@@ -11,3 +11,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.leaflet-container .leaflet-marker-icon {
+  background-image: url(../node_modules/leaflet/dist/images/marker-icon.png);
+}
+.leaflet-container .leaflet-marker-shadow {
+  background-image: url(../node_modules/leaflet/dist/images/marker-shadow.png);
+}
