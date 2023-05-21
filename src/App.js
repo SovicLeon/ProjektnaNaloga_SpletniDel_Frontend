@@ -7,6 +7,7 @@ import Register from "./components/Register";
 import Profile from "./components/Profile";
 import Logout from "./components/Logout";
 import LastLoaction from "./components/LastLocation";
+import LastDrive from "./components/LastDrive";
 
 function App() {
   const [user, setUser] = useState(localStorage.user ? JSON.parse(localStorage.user) : null);
@@ -30,6 +31,7 @@ function App() {
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/logout" element={<Logout />}></Route>
             <Route path="/lastloaction" element={<LastLoaction />}></Route>
+            <Route path="/lastdrive" element={<LastDrive />}></Route>
           </Routes>
         </div>
       </UserContext.Provider>
