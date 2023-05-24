@@ -1,6 +1,7 @@
 import { useContext } from "react";
 import { UserContext } from "../userContext";
 import { Link } from "react-router-dom";
+import './style.css';
 
 function Header(props) {
     return (

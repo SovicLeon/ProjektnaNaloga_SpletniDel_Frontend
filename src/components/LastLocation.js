@@ -56,7 +56,9 @@ function LastLocation() {
 
   return (
     <div>
-      <h1>Last location</h1>
+      <div class="pageTitle">
+        <h1>Last location</h1>
+      </div>
       <MapContainer center={userPosition} zoom={13} style={{ height: "500px"}}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

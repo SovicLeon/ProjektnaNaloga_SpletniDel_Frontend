@@ -52,12 +52,14 @@ function LastDrive() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="progress-bar" style={{ '--width': 10 }} data-label="Loading..."></div>;
   }
 
   return (
     <div>
-      <h1>Last drive</h1>
+      <div class="pageTitle">
+        <h1>Last drive</h1>
+      </div>
       <MapContainer center={[userPositions[0].latitude, userPositions[0].longitude]} zoom={13} style={{ height: "500px" }}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
