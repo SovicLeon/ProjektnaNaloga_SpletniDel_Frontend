@@ -3,6 +3,8 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { Line } from 'react-chartjs-2';
+import {Chart as ChartJS} from 'chart.js/auto'
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -37,6 +39,19 @@ async function fetchRoadInfo() {
 function RoadInfo() {
   const [userPositions, setUserPositions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const chartData = {
+    labels: userPositions.map((position) => new Date(position.time).toLocaleString()),
+    datasets: [
+      {
+        label: 'Acceleration Average',
+        data: userPositions.map((position) => position.acc_average),
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+      },
+      // Add more datasets if needed
+    ],
+  };
 
   useEffect(() => {
     fetchRoadInfo()
@@ -95,6 +110,9 @@ function RoadInfo() {
           ))}
         </MapContainer>
       </div>
+        <div className="chartContainer">
+      <Line data={chartData} options={{ maintainAspectRatio: false }}/>
+    </div>
     </div>
   );
 }

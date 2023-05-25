@@ -4,6 +4,8 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
+import { Line } from 'react-chartjs-2';
+import {Chart as ChartJS} from 'chart.js/auto'
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -36,9 +38,25 @@ async function fetchLastDrive() {
 }
 
 function LastDrive() {
+  const calculateGyroMovement = (position) => {
+    return position.gyro_x + position.gyro_y + position.gyro_z;
+  };
   const userContext = useContext(UserContext);
   const [userPositions, setUserPositions] = useState([]); // Changed default position
   const [loading, setLoading] = useState(true);
+  const chartData = {
+    labels: userPositions.map((position) => new Date(position.time).toLocaleString()),
+    datasets: [
+      {
+        label: 'Gyro movement',
+        data: userPositions.map((position) => position.gyro_x + position.gyro_y + position.gyro_z),
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+      },
+      // Add more datasets if needed
+    ],
+  };
 
   useEffect(() => {
     fetchLastDrive()
@@ -72,15 +90,18 @@ function LastDrive() {
               <Popup>
                 Lat: {position.latitude}, Long: {position.longitude} <br />
                 Gyro X: {position.gyro_x}, Gyro Y: {position.gyro_y}, Gyro Z: {position.gyro_z} <br />
+                Gyro sum: {calculateGyroMovement(position).toFixed(2)} <br/>
                 Acceleration: {position.acc_acceleration} <br />
                 Acc X: {position.acc_x}, Acc Y: {position.acc_y}, Acc Z: {position.acc_z} <br />
                 Timestamp: {new Date(position.timestamp).toLocaleString()}
               </Popup>
-
             </Marker>
           ))}
         </MapContainer>
       </div>
+      <div className="chartContainer">
+        <Line data={chartData} options={{ maintainAspectRatio: false }}/>
+    </div>
     </div>
   );
 }
