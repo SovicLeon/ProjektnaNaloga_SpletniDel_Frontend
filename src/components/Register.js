@@ -1,3 +1,4 @@
+import { dividerClasses } from '@mui/material';
 import { useState } from 'react';
 
 function Register() {
@@ -31,13 +32,15 @@ function Register() {
     }
 
     return(
-        <form onSubmit={Register}>
-            <input type="text" name="email" placeholder="Email" value={email} onChange={(e)=>(setEmail(e.target.value))} />
-            <input type="text" name="username" placeholder="Username" value={username} onChange={(e)=>(setUsername(e.target.value))}/>
-            <input type="password" name="password" placeholder="Password" value={password} onChange={(e)=>(setPassword(e.target.value))} />
-            <input type="submit" name="submit" value="Login" />
-            <label>{error}</label>
-        </form>
+        <div class="login-register">
+            <form onSubmit={Register}>
+                <input type="text" name="email" placeholder="Email" value={email} onChange={(e)=>(setEmail(e.target.value))} />
+                <input type="text" name="username" placeholder="Username" value={username} onChange={(e)=>(setUsername(e.target.value))}/>
+                <input type="password" name="password" placeholder="Password" value={password} onChange={(e)=>(setPassword(e.target.value))} />
+                <input type="submit" name="submit" value="Login" />
+                <label>{error}</label>
+            </form>
+        </div>
     );
 }
 

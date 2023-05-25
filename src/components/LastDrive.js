@@ -60,25 +60,27 @@ function LastDrive() {
       <div class="pageTitle">
         <h1>Last drive</h1>
       </div>
-      <MapContainer center={[userPositions[0].latitude, userPositions[0].longitude]} zoom={13} style={{ height: "500px" }}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Polyline pathOptions={{ color: 'red' }} positions={userPositions.map(pos => [pos.latitude, pos.longitude])} />
-        {userPositions.map((position, idx) => (
-          <Marker key={idx} position={[position.latitude, position.longitude]}>
-            <Popup>
-              Lat: {position.latitude}, Long: {position.longitude} <br />
-              Gyro X: {position.gyro_x}, Gyro Y: {position.gyro_y}, Gyro Z: {position.gyro_z} <br />
-              Acceleration: {position.acc_acceleration} <br />
-              Acc X: {position.acc_x}, Acc Y: {position.acc_y}, Acc Z: {position.acc_z} <br />
-              Timestamp: {new Date(position.timestamp).toLocaleString()}
-            </Popup>
+      <div className="mapContainer">
+        <MapContainer center={[userPositions[0].latitude, userPositions[0].longitude]} zoom={13} style={{ height: "500px" }}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Polyline pathOptions={{ color: 'red' }} positions={userPositions.map(pos => [pos.latitude, pos.longitude])} />
+          {userPositions.map((position, idx) => (
+            <Marker key={idx} position={[position.latitude, position.longitude]}>
+              <Popup>
+                Lat: {position.latitude}, Long: {position.longitude} <br />
+                Gyro X: {position.gyro_x}, Gyro Y: {position.gyro_y}, Gyro Z: {position.gyro_z} <br />
+                Acceleration: {position.acc_acceleration} <br />
+                Acc X: {position.acc_x}, Acc Y: {position.acc_y}, Acc Z: {position.acc_z} <br />
+                Timestamp: {new Date(position.timestamp).toLocaleString()}
+              </Popup>
 
-          </Marker>
-        ))}
-      </MapContainer>
+            </Marker>
+          ))}
+        </MapContainer>
+      </div>
     </div>
   );
 }

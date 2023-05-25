@@ -50,7 +50,7 @@ function RoadInfo() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="progress-bar" style={{ '--width': 10 }} data-label="Loading..."></div>;
   }
 
   return (
@@ -58,41 +58,43 @@ function RoadInfo() {
       <div class="pageTitle">
         <h1>Road info</h1>
       </div>
-      <MapContainer center={[userPositions[0].start_pos_lat, userPositions[0].start_pos_lon]} zoom={13} style={{ height: "500px" }}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        {userPositions.map((position, idx) => (
-          <>
-            <Polyline key={`polyline-${idx}`} pathOptions={{ color: 'red' }} positions={[[position.start_pos_lat, position.start_pos_lon], [position.end_pos_lat, position.end_pos_lon]]}>
-              <Popup>
-              Start Position: <br />
-              Lat: {position.start_pos_lat}, Long: {position.start_pos_lon} <br />
-              Time: {new Date(position.time).toLocaleString()} <br />
-              Duration: {position.duration} <br />
-              Acceleration Average: {position.acc_average}, Max: {position.acc_max}, Min: {position.acc_min} <br />
-            </Popup>
-            </Polyline>
-            <Marker key={`marker-start-${idx}`} position={[position.start_pos_lat, position.start_pos_lon]}>
-              <Popup>
+      <div className="mapContainer">
+        <MapContainer center={[userPositions[0].start_pos_lat, userPositions[0].start_pos_lon]} zoom={13} style={{ height: "500px" }}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          {userPositions.map((position, idx) => (
+            <>
+              <Polyline key={`polyline-${idx}`} pathOptions={{ color: 'red' }} positions={[[position.start_pos_lat, position.start_pos_lon], [position.end_pos_lat, position.end_pos_lon]]}>
+                <Popup>
                 Start Position: <br />
                 Lat: {position.start_pos_lat}, Long: {position.start_pos_lon} <br />
                 Time: {new Date(position.time).toLocaleString()} <br />
                 Duration: {position.duration} <br />
                 Acceleration Average: {position.acc_average}, Max: {position.acc_max}, Min: {position.acc_min} <br />
               </Popup>
-            </Marker>
-            <Marker key={`marker-end-${idx}`} position={[position.end_pos_lat, position.end_pos_lon]}>
-              <Popup>
-                End Position: <br />
-                Lat: {position.end_pos_lat}, Long: {position.end_pos_lon} <br />
-                Time: {new Date(position.timestamp).toLocaleString()} <br />
-              </Popup>
-            </Marker>
-          </>
-        ))}
-      </MapContainer>
+              </Polyline>
+              <Marker key={`marker-start-${idx}`} position={[position.start_pos_lat, position.start_pos_lon]}>
+                <Popup>
+                  Start Position: <br />
+                  Lat: {position.start_pos_lat}, Long: {position.start_pos_lon} <br />
+                  Time: {new Date(position.time).toLocaleString()} <br />
+                  Duration: {position.duration} <br />
+                  Acceleration Average: {position.acc_average}, Max: {position.acc_max}, Min: {position.acc_min} <br />
+                </Popup>
+              </Marker>
+              <Marker key={`marker-end-${idx}`} position={[position.end_pos_lat, position.end_pos_lon]}>
+                <Popup>
+                  End Position: <br />
+                  Lat: {position.end_pos_lat}, Long: {position.end_pos_lon} <br />
+                  Time: {new Date(position.timestamp).toLocaleString()} <br />
+                </Popup>
+              </Marker>
+            </>
+          ))}
+        </MapContainer>
+      </div>
     </div>
   );
 }

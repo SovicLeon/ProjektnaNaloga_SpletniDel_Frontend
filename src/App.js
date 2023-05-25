@@ -24,7 +24,7 @@ function App() {
         setUserContext: updateUserData
       }}>
         <div className="App">
-          <Header title="My application"></Header>
+          <Header title="Road capture"></Header>
           <Routes>
             <Route path="/" exact element={<Profile />}></Route>
             <Route path="/login" exact element={<Login />}></Route>

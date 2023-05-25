@@ -59,17 +59,19 @@ function LastLocation() {
       <div class="pageTitle">
         <h1>Last location</h1>
       </div>
-      <MapContainer center={userPosition} zoom={13} style={{ height: "500px"}}>
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <Marker position={userPosition}>
-          <Popup>
-            Last Location: {userPosition[0]}, {userPosition[1]}
-          </Popup>
-        </Marker>
-      </MapContainer>
+      <div className="mapContainer">
+        <MapContainer center={userPosition} zoom={13} style={{ height: "500px"}}>
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={userPosition}>
+            <Popup>
+              Last Location: {userPosition[0]}, {userPosition[1]}
+            </Popup>
+          </Marker>
+        </MapContainer>
+      </div>
     </div>
   );
 }
