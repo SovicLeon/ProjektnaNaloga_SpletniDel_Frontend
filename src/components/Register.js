@@ -1,4 +1,3 @@
-import { dividerClasses } from '@mui/material';
 import { useState } from 'react';
 
 function Register() {
