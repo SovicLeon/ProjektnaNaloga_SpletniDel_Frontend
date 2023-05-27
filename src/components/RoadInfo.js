@@ -81,14 +81,23 @@ function RoadInfo() {
           />
           {userPositions.map((position, idx) => (
             <>
-              <Polyline key={`polyline-${idx}`} pathOptions={{ color: 'red' }} positions={[[position.start_pos_lat, position.start_pos_lon], [position.end_pos_lat, position.end_pos_lon]]}>
+              <Polyline
+                  key={`polyline-${idx}`}
+                  pathOptions={{
+                    color: position.acc_average > 1 ? 'red' : 'blue', // Set color based on acc_average value
+                  }}
+                  positions={[
+                    [position.start_pos_lat, position.start_pos_lon],
+                    [position.end_pos_lat, position.end_pos_lon]
+                  ]}
+                >
                 <Popup>
-                Start Position: <br />
-                Lat: {position.start_pos_lat}, Long: {position.start_pos_lon} <br />
-                Time: {new Date(position.time).toLocaleString()} <br />
-                Duration: {position.duration} <br />
-                Acceleration Average: {position.acc_average}, Max: {position.acc_max}, Min: {position.acc_min} <br />
-              </Popup>
+                  Start Position: <br />
+                  Lat: {position.start_pos_lat}, Long: {position.start_pos_lon} <br />
+                  Time: {new Date(position.time).toLocaleString()} <br />
+                  Duration: {position.duration} <br />
+                  Acceleration Average: {position.acc_average}, Max: {position.acc_max}, Min: {position.acc_min} <br />
+                </Popup>
               </Polyline>
               <Marker key={`marker-start-${idx}`} position={[position.start_pos_lat, position.start_pos_lon]}>
                 <Popup>
