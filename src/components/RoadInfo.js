@@ -7,6 +7,7 @@ import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto'
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { UserContext } from '../userContext';
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -39,6 +40,7 @@ async function fetchRoadInfo() {
 }
 
 function RoadInfo() {
+  const userContext = useContext(UserContext); 
   const [fromDate, setFromDate] = useState(null);
   const [toDate, setToDate] = useState(null);
   const [userPositions, setUserPositions] = useState([]);
@@ -58,12 +60,15 @@ function RoadInfo() {
   if (loading) {
     return <div className="progress-bar" style={{ '--width': 10 }} data-label="Loading..."></div>;
   }
-
+  
   const filteredPositions = userPositions.filter((position) => {
     const positionDate = new Date(position.time);
+    console.log("Position:", position.postedBy._id)
+    console.log("User:", userContext.user._id)
     return (
       (!fromDate || positionDate >= fromDate) &&
-      (!toDate || positionDate <= toDate)
+      (!toDate || positionDate <= toDate) && 
+      (position.postedBy._id == userContext.user._id)
     );
   });
 
@@ -104,6 +109,7 @@ function RoadInfo() {
           type="date"
           id="fromDate"
           name="fromDate"
+          class="dateInput"
           onChange={handleFromDateChange}
         />
         <label htmlFor="toDate">To Date:</label>
@@ -111,6 +117,7 @@ function RoadInfo() {
           type="date"
           id="toDate"
           name="toDate"
+          class="dateInput"
           onChange={handleToDateChange}
         />
       </div>
