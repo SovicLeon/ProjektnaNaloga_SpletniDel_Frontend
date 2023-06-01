@@ -61,16 +61,24 @@ function RoadInfo() {
     return <div className="progress-bar" style={{ '--width': 10 }} data-label="Loading..."></div>;
   }
   
-  const filteredPositions = userPositions.filter((position) => {
+  var filteredPositions = userPositions.filter((position) => {
     const positionDate = new Date(position.time);
-    console.log("Position:", position.postedBy._id)
-    console.log("User:", userContext.user._id)
     return (
       (!fromDate || positionDate >= fromDate) &&
-      (!toDate || positionDate <= toDate) && 
-      (position.postedBy._id == userContext.user._id)
+      (!toDate || positionDate <= toDate)
     );
   });
+
+  if (userContext.user) {
+    filteredPositions = userPositions.filter((position) => {
+      const positionDate = new Date(position.time);
+      return (
+        (!fromDate || positionDate >= fromDate) &&
+        (!toDate || positionDate <= toDate) &&
+        (position.postedBy._id === userContext.user._id)
+      );
+    });
+  }
 
   const handleFromDateChange = (event) => {
     const selectedDate = new Date(event.target.value);
