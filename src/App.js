@@ -31,7 +31,7 @@ function App() {
             <Route path="/register" element={<Register />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/logout" element={<Logout />}></Route>
-            <Route path="/lastloaction" element={<LastLoaction />}></Route>
+            <Route path="/lastlocation" element={<LastLoaction />}></Route>
             <Route path="/lastdrive" element={<LastDrive />}></Route>
             <Route path="/roadinfo" element={<RoadInfo />}></Route>
           </Routes>
