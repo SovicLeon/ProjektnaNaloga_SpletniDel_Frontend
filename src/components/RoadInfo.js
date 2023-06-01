@@ -48,14 +48,27 @@ function RoadInfo() {
   const [showFilteredData, setShowFilteredData] = useState(false); // New state
 
   useEffect(() => {
-    fetchRoadInfo()
-      .then((positions) => {
+    // Function to fetch data and update positions
+    const fetchData = async () => {
+      try {
+        const positions = await fetchRoadInfo();
         setUserPositions(positions);
         setLoading(false);
-      })
-      .catch((error) => {
+      } catch (error) {
         setLoading(false);
-      });
+      }
+    };
+
+    // Fetch data initially
+    fetchData();
+
+    // Set up the timer to fetch data every minute
+    const timer = setInterval(fetchData, 10000);
+
+    // Clean up the timer on component unmount
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   if (loading) {
