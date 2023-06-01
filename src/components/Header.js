@@ -15,7 +15,7 @@ function Header(props) {
                             context.user ?
                                 <>
                                     <li><Link to='/profile'>Profile</Link></li>
-                                    <li><Link to='/lastloaction'>Last location</Link></li>
+                                    <li><Link to='/lastlocation'>Last location</Link></li>
                                     <li><Link to='/lastdrive'>Last drive</Link></li>
                                     <li><Link to='/roadinfo'>Road info</Link></li>
                                     <li><Link to='/logout'>Logout</Link></li>

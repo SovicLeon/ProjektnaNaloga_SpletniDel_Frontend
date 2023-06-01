@@ -26,7 +26,7 @@ function App() {
         <div className="App">
           <Header title="Road capture"></Header>
           <Routes>
-            <Route path="/" exact element={<Profile />}></Route>
+            <Route path="/" exact element={<RoadInfo />}></Route>
             <Route path="/login" exact element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
