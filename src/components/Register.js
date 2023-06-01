@@ -33,10 +33,10 @@ function Register() {
     return(
         <div class="login-register">
             <form onSubmit={Register}>
-                <input type="text" name="email" placeholder="Email" value={email} onChange={(e)=>(setEmail(e.target.value))} />
                 <input type="text" name="username" placeholder="Username" value={username} onChange={(e)=>(setUsername(e.target.value))}/>
+                <input type="text" name="email" placeholder="Email" value={email} onChange={(e)=>(setEmail(e.target.value))} />
                 <input type="password" name="password" placeholder="Password" value={password} onChange={(e)=>(setPassword(e.target.value))} />
-                <input type="submit" name="submit" value="Login" />
+                <input type="submit" name="submit" value="Register" />
                 <label>{error}</label>
             </form>
         </div>
