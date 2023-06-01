@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { UserContext } from "./userContext";
 import Header from "./components/Header";
@@ -16,6 +16,10 @@ function App() {
     localStorage.setItem("user", JSON.stringify(userInfo));
     setUser(userInfo);
   }
+
+  useEffect(() => {
+    document.title = "Road info";
+  }, []);
 
   return (
     <BrowserRouter>

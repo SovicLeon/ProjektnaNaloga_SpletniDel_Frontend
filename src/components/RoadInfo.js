@@ -4,8 +4,6 @@ import { Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS } from 'chart.js/auto';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { UserContext } from '../userContext';
 
@@ -63,7 +61,7 @@ function RoadInfo() {
     fetchData();
 
     // Set up the timer to fetch data every minute
-    const timer = setInterval(fetchData, 10000);
+    const timer = setInterval(fetchData, 60000);
 
     // Clean up the timer on component unmount
     return () => {
