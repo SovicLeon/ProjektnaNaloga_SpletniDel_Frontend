@@ -4,7 +4,7 @@ import { Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { Line } from 'react-chartjs-2';
-import {Chart as ChartJS} from 'chart.js/auto'
+import { Chart as ChartJS } from 'chart.js/auto'
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -82,15 +82,27 @@ function RoadInfo() {
           {userPositions.map((position, idx) => (
             <>
               <Polyline
-                  key={`polyline-${idx}`}
-                  pathOptions={{
-                    color: position.acc_average > 1 ? 'red' : 'blue', // Set color based on acc_average value
-                  }}
-                  positions={[
-                    [position.start_pos_lat, position.start_pos_lon],
-                    [position.end_pos_lat, position.end_pos_lon]
-                  ]}
-                >
+                key={`polyline-${idx}`}
+                pathOptions={{
+                  color: (() => {
+                    if (position.acc_average < 0.1) {
+                      return 'black';
+                    } else if (position.acc_average < 5) {
+                      return 'green';
+                    } else if (position.acc_average < 10) {
+                      return 'yellow';
+                    } else if (position.acc_average < 12) {
+                      return 'orange';
+                    } else {
+                      return 'red';
+                    }
+                  })(),
+                }}
+                positions={[
+                  [position.start_pos_lat, position.start_pos_lon],
+                  [position.end_pos_lat, position.end_pos_lon]
+                ]}
+              >
                 <Popup>
                   Start Position: <br />
                   Lat: {position.start_pos_lat}, Long: {position.start_pos_lon} <br />
@@ -119,9 +131,9 @@ function RoadInfo() {
           ))}
         </MapContainer>
       </div>
-        <div className="chartContainer">
-      <Line data={chartData} options={{ maintainAspectRatio: false }}/>
-    </div>
+      <div className="chartContainer">
+        <Line data={chartData} options={{ maintainAspectRatio: false }} />
+      </div>
     </div>
   );
 }
