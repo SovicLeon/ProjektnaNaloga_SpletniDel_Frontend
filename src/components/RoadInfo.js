@@ -101,7 +101,7 @@ function RoadInfo() {
     setShowFilteredData((prevState) => !prevState); // Toggle the state
   };
 
-  const chartData = {
+  const accelerationChartData = {
     labels: filteredPositions.map((position) =>
       new Date(position.time).toLocaleString()
     ),
@@ -113,9 +113,37 @@ function RoadInfo() {
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1,
       },
-      // Add more datasets if needed
     ],
   };
+
+  const trafficChartData = {
+    labels: filteredPositions.map((position) =>
+      new Date(position.time).toLocaleString()
+    ),
+    datasets: [
+      {
+        label: 'Number Of Vehicles',
+        data: filteredPositions.map((position) => position.sectionTraffic?.numOfVehicles || 0),
+        backgroundColor: 'rgba(255, 99, 132, 0.2)', // Red background color
+        borderColor: 'rgba(255, 99, 132, 1)', // Red border color
+        borderWidth: 1,
+      },
+      {
+        label: 'Average Speed',
+        data: filteredPositions.map((position) => position.sectionTraffic?.speed || 0),
+        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Blue background color
+        borderColor: 'rgba(54, 162, 235, 1)', // Blue border color
+        borderWidth: 1,
+      },
+      {
+        label: 'Time Between Vehicles',
+        data: filteredPositions.map((position) => position.sectionTraffic?.timeBetweenVehicles || 0),
+        backgroundColor: 'rgba(255, 205, 86, 0.2)', // Yellow background color
+        borderColor: 'rgba(255, 205, 86, 1)', // Yellow border color
+        borderWidth: 1,
+      },
+    ],
+  };  
 
   return (
     <div>
@@ -140,17 +168,17 @@ function RoadInfo() {
           onChange={handleToDateChange}
         />
         {userContext.user && ( // Render the toggle button only if the user is logged in
-        <div className="toggleContainer">
-          <label>
-            Show Only My Data:
-            <input
-              type="checkbox"
-              checked={showFilteredData}
-              onChange={handleToggleChange}
-            />
-          </label>
-        </div>
-      )}
+          <div className="toggleContainer">
+            <label>
+              Show Only My Data:
+              <input
+                type="checkbox"
+                checked={showFilteredData}
+                onChange={handleToggleChange}
+              />
+            </label>
+          </div>
+        )}
       </div>
       <div className="mapContainer">
         <MapContainer
@@ -229,7 +257,10 @@ function RoadInfo() {
         </MapContainer>
       </div>
       <div className="chartContainer">
-        <Line data={chartData} options={{ maintainAspectRatio: false }} />
+        <Line data={accelerationChartData} options={{ maintainAspectRatio: false }} />
+      </div>
+      <div className="chartContainer">
+        <Line data={trafficChartData} options={{ maintainAspectRatio: false }} />
       </div>
     </div>
   );
