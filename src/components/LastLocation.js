@@ -40,14 +40,24 @@ function LastLocation() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchLastLocation()
-      .then(position => {
+    const fetchData = async () => {
+      try {
+        const position = await fetchLastLocation();
         setUserPosition(position);
         setLoading(false);
-      })
-      .catch(error => {
+      } catch (error) {
+        console.error("Error fetching last location:", error);
         setLoading(false);
-      });
+      }
+    };
+
+    fetchData();
+
+    const interval = setInterval(fetchData, 10000); // Update every minute
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   if (loading) {
@@ -56,11 +66,11 @@ function LastLocation() {
 
   return (
     <div>
-      <div class="pageTitle">
+      <div className="pageTitle">
         <h1>Last location</h1>
       </div>
       <div className="mapContainer">
-        <MapContainer center={userPosition} zoom={13} style={{ height: "500px"}}>
+        <MapContainer key={userPosition[0]} center={userPosition} zoom={13} style={{ height: "500px" }}>
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
