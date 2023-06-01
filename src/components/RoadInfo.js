@@ -5,6 +5,8 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS } from 'chart.js/auto'
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -37,22 +39,11 @@ async function fetchRoadInfo() {
 }
 
 function RoadInfo() {
+  const [fromDate, setFromDate] = useState(null);
+  const [toDate, setToDate] = useState(null);
   const [userPositions, setUserPositions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const chartData = {
-    labels: userPositions.map((position) => new Date(position.time).toLocaleString()),
-    datasets: [
-      {
-        label: 'Acceleration Average',
-        data: userPositions.map((position) => position.acc_average),
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
-      },
-      // Add more datasets if needed
-    ],
-  };
-
+  
   useEffect(() => {
     fetchRoadInfo()
       .then(positions => {
@@ -68,10 +59,60 @@ function RoadInfo() {
     return <div className="progress-bar" style={{ '--width': 10 }} data-label="Loading..."></div>;
   }
 
+  const filteredPositions = userPositions.filter((position) => {
+    const positionDate = new Date(position.time);
+    return (
+      (!fromDate || positionDate >= fromDate) &&
+      (!toDate || positionDate <= toDate)
+    );
+  });
+
+  const handleFromDateChange = (event) => {
+    const selectedDate = new Date(event.target.value);
+    setFromDate(selectedDate);
+  };
+
+  const handleToDateChange = (event) => {
+    const selectedDate = new Date(event.target.value);
+    setToDate(selectedDate);
+  };
+
+  const chartData = {
+    labels: filteredPositions.map((position) =>
+      new Date(position.time).toLocaleString()
+    ),
+    datasets: [
+      {
+        label: 'Acceleration Average',
+        data: filteredPositions.map((position) => position.acc_average),
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
+      },
+      // Add more datasets if needed
+    ],
+  };
+
   return (
     <div>
       <div class="pageTitle">
         <h1>Road info</h1>
+      </div>
+      <div class="datePicker">
+        <label htmlFor="fromDate">From Date:</label>
+        <input
+          type="date"
+          id="fromDate"
+          name="fromDate"
+          onChange={handleFromDateChange}
+        />
+        <label htmlFor="toDate">To Date:</label>
+        <input
+          type="date"
+          id="toDate"
+          name="toDate"
+          onChange={handleToDateChange}
+        />
       </div>
       <div className="mapContainer">
         <MapContainer center={[userPositions[0].start_pos_lat, userPositions[0].start_pos_lon]} zoom={13} style={{ height: "500px" }}>
@@ -79,7 +120,7 @@ function RoadInfo() {
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           />
-          {userPositions.map((position, idx) => (
+           {filteredPositions.map((position, idx) => (
             <>
               <Polyline
                 key={`polyline-${idx}`}
