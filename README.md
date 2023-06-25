@@ -1,4 +1,4 @@
-# Frontend using React for out project
+# Frontend using React for our project
 
 Displays traffic info of past drives
 
